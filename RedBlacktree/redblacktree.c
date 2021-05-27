@@ -1,28 +1,37 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "redblack.h"
+#include "fatal.h"
 
-struct AVLNode;
-typedef struct AVLNode *Position;
-typedef struct AVLNode *AVLTree;
+
+struct RedBlackNode;
+typedef struct RedBlackNode *Position;
+typedef struct RedBlackNode *RedBlackTree;
 typedef int ElementType;
-struct AVLNode{
+typedef enum ColorType {Red,Black} ColorType;
+struct RedBlackNode{
   ElementType Element;
-  AVLTree Left;
-  AVLTree Right;
+  ColorType Collar;
+  RedBlackTree Left;
+  RedBlackTree Right;
   int Height;
 };
 
-AVLTree MakeEmpty(AVLTree T);
-Position Find(ElementType X, AVLTree T);
-Position FindMin(AVLTree T);
-Position FindMax(AVLTree T);
-AVLTree Insert(ElementType X, AVLTree T);
-AVLTree Delete(ElementType X, AVLTree T);
+//ŠÖ”
+RedBlackTree MakeEmpty(RedBlackTree T);
+Position Find(ElementType X, RedBlackTree T);
+Position FindMin(RedBlackTree T);
+Position FindMax(RedBlackTree T);
+RedBlackTree Insert(ElementType X, RedBlackTree T);
+RedBlackTree Delete(ElementType X, RedBlackTree T);
 
+//Max
 static int Max(ElementType X, ElementType Y){
   return (X)>(Y)?(X):(Y);
 }
+
+//Height
 static int Height( Position P ){
   if (P == NULL){
     return -1;
@@ -32,6 +41,7 @@ static int Height( Position P ){
   }
 }
 
+//SingleRotateWithRight
 static Position SingleRotateWithRight (Position K1){
   Position K2;
   K2 = K1->Right;
@@ -101,11 +111,11 @@ static Position DoubleRotateWithRight(Position K3){
 
   return SingleRotateWithRight(K3);
 }
-AVLTree Insert(ElementType X, AVLTree T){
-  /*When T is NULL*/
+
+//Insert
+RedBlackTree Insert(ElementType X, RedBlackTree T){
   if (T == NULL){
-    /*Create and return a one-node tree*/
-    T = (struct AVLNode*)malloc(sizeof (struct AVLNode));
+    T = (struct RedBlackNode*)malloc(sizeof (struct RedBlackNode));
     if (T == NULL) {
       perror("malloc");
       exit(1);
@@ -114,12 +124,9 @@ AVLTree Insert(ElementType X, AVLTree T){
       T->Left = T->Right = NULL;
     }
   }
-  /*When T isn't NULL*/
   else if (X < T->Element){
-    /*When X need Insert into Left Tree of T.*/
     T->Left = Insert(X, T->Left);
     if (Height(T->Left) - Height(T->Right) == 2){
-      /*Now we need a rotate to balance*/
       if (X < T->Left->Element){
          T = SingleRotateWithLeft(T);
       }else{
@@ -128,7 +135,6 @@ AVLTree Insert(ElementType X, AVLTree T){
     }
   }
   else if (X > T->Element){
-    /*When X need Insert into Right Tree of T.*/
     T->Right = Insert(X, T->Right);
     if (Height(T->Right) - Height(T->Left) == 2){
       if (X > T->Right->Element){
@@ -138,23 +144,24 @@ AVLTree Insert(ElementType X, AVLTree T){
       }
     }
   }
-  /*When X is ready in Tree, we do nothing.*/
   T->Height = Max(Height(T->Left), Height(T->Right)) + 1;
   return T;
 }
-void show(AVLTree T){
+//show
+void show(RedBlackTree T){
   if (T == NULL){
     return;
   }else{
-    printf("James:%d\n", T->Element);
+    printf("James:%d Collar:%d\n", T->Element,T->Collar);
     show(T->Left);
     show(T->Right);
   }
 }
+//main
 int main(int argc, char **argv){
   int max = 16;
   int i;
-  AVLTree T=NULL;
+  RedBlackTree T=NULL;
   while(max--){
     scanf("%d\n", &i);
     T=Insert(i, T);

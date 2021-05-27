@@ -12,9 +12,10 @@ typedef int ElementType;
 typedef enum ColorType {Red,Black} ColorType;
 struct RedBlackNode{
   ElementType Element;
-  ColorType Collar;
+  ColorType Color;
   RedBlackTree Left;
   RedBlackTree Right;
+  RedBlackTree Parent;
   int Height;
 };
 
@@ -121,7 +122,10 @@ RedBlackTree Insert(ElementType X, RedBlackTree T){
       exit(1);
     }else{
       T->Element = X; T->Height = 0;
-      T->Left = T->Right = NULL;
+      T->Left = NULL;
+      T->Right = NULL;
+      T->Parent = NULL;
+      T->Color = Black;
     }
   }
   else if (X < T->Element){
@@ -152,9 +156,11 @@ void show(RedBlackTree T){
   if (T == NULL){
     return;
   }else{
-    printf("James:%d Collar:%d\n", T->Element,T->Collar);
+    printf("Element:%d Color:%d---", T->Element,T->Color);
     show(T->Left);
+    printf("\n");
     show(T->Right);
+    printf("\n");
   }
 }
 //main

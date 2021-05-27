@@ -229,19 +229,40 @@
 
             return T;
         }
+        void show(RedBlackTree T){
+            if (T == NULL){
+                return;
+            }else{
+            printf("Node:%d Color:%d---", T->Element,T->Color);
+            show(T->Left);
+            printf("\n");
+            show(T->Right);
+            printf("\n");
+            }
+        }
+
 /* END */
 
-        RedBlackTree
-        Remove( ElementType Item, RedBlackTree T )
-        {
+        RedBlackTree Remove( ElementType Item, RedBlackTree T ){
             printf( "Remove is unimplemented\n" );
-            if( Item )
+            if( Item ){
                 return T;
+            }
             return T;
         }
 
-        ElementType
-        Retrieve( Position P )
-        {
+        ElementType Retrieve( Position P ){
             return P->Element;
+        }
+
+        int main(void){
+            int max = 16;
+            int i;
+            RedBlackTree T=NULL;
+            while(max--){
+                scanf("%d\n", &i);
+                T=Insert(i, T);
+            }
+            show(T);
+            return(0);
         }

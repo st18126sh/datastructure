@@ -19,6 +19,7 @@ struct RedBlackNode{
   int Height;
 };
 
+
 //ä÷êî
 RedBlackTree MakeEmpty(RedBlackTree T);
 Position Find(ElementType X, RedBlackTree T);

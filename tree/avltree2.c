@@ -16,7 +16,6 @@ struct node_t {
    引数１ node : 根ノードのアドレス
    返却値 : nodeを根とした木の高さ */
 int getHeight(struct node_t *node) {
-
   int left_height;
   int right_height;
   int tree_height;
@@ -33,7 +32,8 @@ int getHeight(struct node_t *node) {
   /* 大きい方に+1したものを木の高さとして返却 */
   if (left_height > right_height) {
     tree_height = left_height;
-  } else {
+  } 
+  else {
     tree_height = right_height;
   }
 
@@ -561,7 +561,7 @@ int main(void){
   root = NULL;
 
   /* 最初にてきとうにノードを追加しておく */
-  root = addNode(root, 100);
+  /*root = addNode(root, 100);
   root = addNode(root, 200);
   root = addNode(root, 300);
   root = addNode(root, 50);
@@ -582,7 +582,7 @@ int main(void){
   root = addNode(root, 507);
   root = addNode(root, 508);
   root = addNode(root, 509);
-  root = addNode(root, 510);
+  root = addNode(root, 510);*/
 
   loop = 1;
   while(loop){
